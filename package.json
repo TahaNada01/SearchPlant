@@ -1,7 +1,7 @@
 {
   "name": "PlantSearch",
   "version": "1.0.0",
-  "description": "Une application pour rechercher des plantes à l'aide de l'API Perennial.",
+  "description": "Une application pour rechercher des plantes avec l'API Perennial.",
   "main": "server.js",
   "scripts": {
     "start": "node server.js"
@@ -9,7 +9,8 @@
   "dependencies": {
     "express": "^4.21.1",
     "node-fetch": "^3.3.2",
-    "cors": "^2.8.5"
+    "cors": "^2.8.5",
+    "dotenv": "^16.0.3"
   },
   "private": true,
   "type": "module"
