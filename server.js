@@ -19,7 +19,7 @@ app.get("/search-plants", async (req, res) => {
   }
 
   try {
-    // Relayer la requête à l'API Perennial avec la bonne clé API et le nom de la plante
+    console.log(`Recherche de la plante: ${plantName}`);
     const response = await fetch(
       `https://perenual.com/api/species-list?key=${PERENNIAL_API_KEY}&q=${plantName}`
     );
