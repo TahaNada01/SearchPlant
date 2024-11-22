@@ -1,26 +1,17 @@
 import axios from 'axios';
 
-//
-const BASE_URL = 'https://plantme-server.vercel.app';
+// URL de votre serveur backend
+const BASE_URL = 'http://localhost:3001';
 
-export const identifyPlant = async (imageUri) => {
+// Fonction pour rechercher des plantes par nom
+export const searchPlants = async (plantName) => {
   try {
-    const formData = new FormData();
-    formData.append('image', {
-      uri: imageUri,
-      name: 'image.jpg',
-      type: 'image/jpeg',
+    const response = await axios.get(`${BASE_URL}/plants/search`, {
+      params: { query: plantName },
     });
-
-    const response = await axios.post(`${BASE_URL}/identify`, formData, {
-      headers: {
-        'Content-Type': 'multipart/form-data',
-      },
-    });
-
-    return response.data.plantName;
+    return response.data.plants; // Retourne les résultats sous forme de tableau
   } catch (error) {
-    console.error('Erreur lors de l\'appel à l\'API:', error);
+    console.error('Erreur lors de la recherche de plantes :', error);
     throw error;
   }
 };
