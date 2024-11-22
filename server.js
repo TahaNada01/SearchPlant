@@ -1,52 +1,20 @@
-const express = require('express');
-const bodyParser = require('body-parser'); // Pour parser le corps des requêtes POST
-const axios = require('axios');
-
-const app = express();
-const port = 3001;
-
-// Middleware pour parser les données JSON dans le corps de la requête
-app.use(bodyParser.json());
-
-// Clé API de Trefle
-const trefleToken = 'BJuTakuXkBL51DzqvMTMw3Ief8lJl14l2Ye78C0L74o';
-
-// Fonction pour rechercher des plantes par nom
-const searchPlantByName = async (plantName) => {
-  try {
-    const response = await axios.get(`https://trefle.io/api/v1/plants/search`, {
-      params: {
-        token: trefleToken,
-        q: plantName,
-      },
-    });
-
-    // Retourne les résultats de la recherche
-    return response.data.data;
-  } catch (error) {
-    console.error('Erreur lors de la recherche de plantes:', error);
-    throw new Error('Impossible de récupérer les données des plantes.');
+{
+  "name": "plantme-server",
+  "version": "1.0.0",
+  "description": "Backend server for plant identification using Multer and Plant.id API",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "nodemon server.js"
+  },
+  "dependencies": {
+    "axios": "^1.7.7",
+    "express": "^4.18.2",
+    "multer": "^1.4.5-lts.1",
+    "form-data": "^4.0.0",
+    "path": "^0.12.7"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.22"
   }
-};
-
-// Route pour rechercher une plante
-app.get('/plants/search', async (req, res) => {
-  const { query } = req.query; // Le nom de la plante est passé dans les paramètres de la requête
-
-  if (!query) {
-    return res.status(400).json({ error: 'Le paramètre "query" est requis.' });
-  }
-
-  try {
-    const results = await searchPlantByName(query);
-    res.json({ plants: results });
-  } catch (error) {
-    console.error('Erreur lors de la recherche:', error);
-    res.status(500).json({ error: error.message });
-  }
-});
-
-// Démarrer le serveur
-app.listen(port, () => {
-  console.log(`Serveur en cours d'exécution sur http://localhost:${port}`);
-});
+}
