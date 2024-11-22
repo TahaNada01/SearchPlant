@@ -20,7 +20,7 @@ app.get("/search-plants", async (req, res) => {
 
   try {
     const response = await fetch(
-      `https://perenual.com/api/species-list?key=${PERENNIAL_API_KEY}&q=${plantName}`
+      `https://perenual.com/api/species-list?key=${PERENNIAL_API_KEY}`
     );
 
     if (!response.ok) {
