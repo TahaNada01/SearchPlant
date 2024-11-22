@@ -1,17 +1,22 @@
 {
-  "name": "PlantSearch",
+  "name": "plantSearch-server",
   "version": "1.0.0",
-  "description": "Une application pour rechercher des plantes avec l'API Perennial.",
+  "description": "Backend server for plant using perenual API",
   "main": "server.js",
   "scripts": {
-    "start": "node server.js"
+    "start": "node server.js",
+    "dev": "nodemon server.js"
   },
-  "dependencies": {
-    "express": "^4.21.1",
-    "node-fetch": "^3.3.2",
-    "cors": "^2.8.5",
-    "dotenv": "^16.0.3"
-  },
-  "private": true,
-  "type": "module"
+  "author": "Nom",
+  "license": "ISC",
+    "dependencies": {
+  "axios": "^1.7.7",
+  "express": "^4.18.2",
+  "multer": "^1.4.5-lts.1",
+  "path": "^0.12.7"
+}
+,
+  "devDependencies": {
+    "nodemon": "^2.0.22"
+  }
 }
