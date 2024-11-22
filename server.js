@@ -1,16 +1,16 @@
-import axios from "axios";
 import express from "express";
+import fetch from "node-fetch"; // Utilisation de fetch en Node.js
 
 const app = express();
 const port = 8081;
 
-// Clé API Trefle.io (placez votre clé dans un fichier .env, par exemple TREFLE_API_KEY)
-const TREFLE_API_KEY = "N5NZ7GkXrrA9hovh8UN6OjfTYQr2Ygc8RnijDdn8YA9gR9EL4o";
+// Clé API de Perennial (vous devrez obtenir cette clé après inscription)
+const PERENNIAL_API_KEY = "sk-YYcB6740bb468ff2a7737";
 
 // Middleware pour analyser le JSON
 app.use(express.json());
 
-// Route pour rechercher une plante par nom
+// Route pour rechercher une plante par son nom
 app.get("/search-plants", async (req, res) => {
   const plantName = req.query.name;
 
@@ -21,18 +21,20 @@ app.get("/search-plants", async (req, res) => {
   }
 
   try {
-    // Appel à l'API Trefle
-    const response = await axios.get("https://trefle.io/api/v1/plants/search", {
-      params: {
-        token: TREFLE_API_KEY,
-        q: plantName,
-      },
-    });
+    // Requête vers l'API Perennial
+    const response = await fetch(`https://perenual.com/api/species-list?key=${PERENNIAL_API_KEY}&q=${plantName}`);
+    
+    if (!response.ok) {
+      throw new Error(`Erreur de l'API: ${response.statusText}`);
+    }
 
-    // Renvoi des résultats
-    res.json(response.data);
+    // Récupérer les données de l'API
+    const data = await response.json();
+
+    // Renvoi des résultats à l'utilisateur
+    res.json(data);
   } catch (error) {
-    console.error("Erreur lors de la requête à l'API Trefle:", error.message);
+    console.error("Erreur lors de la requête à l'API Perennial:", error.message);
     res.status(500).json({ error: "Erreur lors de la recherche de plantes." });
   }
 });
