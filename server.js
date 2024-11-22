@@ -3,7 +3,7 @@ import fetch from "node-fetch";
 import cors from "cors";
 
 const app = express();
-const port = process.env.PORT || 8081;
+const port = process.env.PORT || 3001;
 
 // Clé API incluse directement (moins sécurisé)
 const PERENNIAL_API_KEY = "sk-YYcB6740bb468ff2a7737";
