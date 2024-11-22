@@ -1,59 +1,43 @@
-const express = require('express');
-const multer = require('multer');
-const FormData = require('form-data');
-const axios = require('axios');
+import axios from "axios";
+import express from "express";
 
 const app = express();
-const port = 3001;
+const port = 8081;
 
-// Configuration Multer pour la gestion des images
-const storage = multer.memoryStorage();
-const upload = multer({ storage: storage });
+// Clé API Trefle.io (placez votre clé dans un fichier .env, par exemple TREFLE_API_KEY)
+const TREFLE_API_KEY = "N5NZ7GkXrrA9hovh8UN6OjfTYQr2Ygc8RnijDdn8YA9gR9EL4o";
 
-// Clé API Plant.id
-const apiKey = 'N5NZ7GkXrrA9hovh8UN6OjfTYQr2Ygc8RnijDdn8YA9gR9EL4o';
+// Middleware pour analyser le JSON
+app.use(express.json());
 
-// Fonction pour appeler l'API Plant.id
-const getPlantNameByImage = async (imageBuffer) => {
-  try {
-    const formData = new FormData();
-    formData.append('image', imageBuffer, 'image.jpg');
+// Route pour rechercher une plante par nom
+app.get("/search-plants", async (req, res) => {
+  const plantName = req.query.name;
 
-    const response = await axios.post(
-      'https://api.plant.id/v2/identify',
-      formData,
-      {
-        headers: {
-          ...formData.getHeaders(),
-          'Api-Key': apiKey,
-        },
-      }
-    );
-
-    const result = response.data;
-
-    if (result.suggestions && result.suggestions.length > 0) {
-      return result.suggestions[0].plant_name;
-    } else {
-      throw new Error('Plante non trouvée');
-    }
-  } catch (error) {
-    console.error('Erreur lors de l\'appel à l\'API Plant.id:', error);
-    throw new Error('Erreur de traitement de l\'image');
+  if (!plantName) {
+    return res
+      .status(400)
+      .json({ error: "Veuillez fournir un nom de plante." });
   }
-};
 
-// Route pour identifier la plante
-app.post('/identify', upload.single('image'), async (req, res) => {
   try {
-    const plantName = await getPlantNameByImage(req.file.buffer);
-    res.json({ plantName });
+    // Appel à l'API Trefle
+    const response = await axios.get(https://trefle.io/api/v1/plants/search, {
+      params: {
+        token: TREFLE_API_KEY,
+        q: plantName,
+      },
+    });
+
+    // Renvoi des résultats
+    res.json(response.data);
   } catch (error) {
-    res.status(500).json({ error: error.message });
+    console.error("Erreur lors de la requête à l'API Trefle:", error.message);
+    res.status(500).json({ error: "Erreur lors de la recherche de plantes." });
   }
 });
 
-// Démarrer le serveur
+// Démarrage du serveur
 app.listen(port, () => {
-  console.log(`Serveur en cours d'exécution sur http://localhost:${port}`);
+  console.log(Serveur démarré sur http://localhost:${port});
 });
