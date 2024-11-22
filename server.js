@@ -22,7 +22,7 @@ app.get("/search-plants", async (req, res) => {
 
   try {
     // Appel à l'API Trefle
-    const response = await axios.get(https://trefle.io/api/v1/plants/search, {
+    const response = await axios.get("https://trefle.io/api/v1/plants/search", {
       params: {
         token: TREFLE_API_KEY,
         q: plantName,
@@ -39,5 +39,5 @@ app.get("/search-plants", async (req, res) => {
 
 // Démarrage du serveur
 app.listen(port, () => {
-  console.log(Serveur démarré sur http://localhost:${port});
+  console.log(`Serveur démarré sur http://localhost:${port}`);
 });
